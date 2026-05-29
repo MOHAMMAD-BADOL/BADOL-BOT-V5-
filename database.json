@@ -1,0 +1,15 @@
+{
+    "threads": {
+        "3191064241091091": {
+            "status": false,
+            "name": "BADOL GROUP",
+            "data": {
+                "resend": false,
+                "anti": false,
+                "calllog": false
+            }
+        }
+    },
+    "users": {}
+}
+
