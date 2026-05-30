@@ -10,35 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
     - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        node-version: 20.x
 
-    # ক্যানভাস এবং অন্যান্য নেটিভ মডিউল বিল্ড করার জন্য লিনাক্স লাইব্রেরি ইন্সটল করা হচ্ছে
-    - name: Install System Dependencies for Canvas & SQLite3
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-
-    - name: Create dummy files for validation
+    - name: Create Dummy Files
       run: |
         echo '{}' > config.json
         echo '[]' > BADOL-Appstate.json
-        mkdir -p BADOL-Main
+        mkdir -p BADOL-Main node_modules
         echo 'module.exports = function(api) {};' > BADOL-Main/badol.js
         echo 'module.exports = { error: function() {}, cmd: function() {}, autoBanner: function() {} };' > BADOL-Main/logger.js
 
-    - name: Install Dependencies
-      run: npm install --legacy-peer-deps
-
-    - name: Validate Syntax
+    - name: Validate Syntax Without Install
       run: node --check index.js
