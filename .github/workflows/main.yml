@@ -26,15 +26,15 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 24.x
-        cache: 'npm' # এতে প্যাকেজগুলো ক্যাশ হয়ে থাকবে, প্রতিবার সময় নষ্ট হবে না
+        # এখানে 'cache: npm' লাইনটি বাদ দেওয়া হয়েছে যাতে লক ফাইল না খুঁজেই পার হয়ে যায়
 
     - name: Install Dependencies
       run: |
-        npm ci # package-lock.json অনুযায়ী ক্লিন এবং ফাস্ট ইনস্টল করার জন্য npm ci ব্যবহার করা হয়েছে
+        npm install # এখানে npm ci এর বদলে npm install দেওয়া হয়েছে, যা অটোমেটিক লক ফাইল তৈরি করে নিবে
 
     - name: Create AppState File from Secret
       run: |
         echo '${{ secrets.BADOL_APPSTATE }}' > BADOL-Appstate.json
 
     - name: Start BADOL-BOT V5
-      run: npm start # আপনার package.json এর "start": "node index.js" স্ক্রিপ্টটি রান হবে
+      run: npm start
